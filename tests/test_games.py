@@ -9,7 +9,8 @@ def test_get_games():
 
 
 def test_create_game():
-    data = {
+    json = {
         "players": ["one", "two"],
     }
-    assert requests.post(SERVER + "/api/games", data=data).status_code == 200
+    response = requests.post(SERVER + "/api/games", json=json)
+    assert response.status_code == 200
