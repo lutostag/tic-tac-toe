@@ -1,7 +1,10 @@
-.PHONY: deps test dev
+.PHONY: deps fmt test dev
 
 deps:
 	pip install -r requirements-dev.txt
+
+fmt:
+	black .
 
 test:
 	pytest
