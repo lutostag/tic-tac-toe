@@ -1,18 +1,14 @@
 import requests
 import os
 import pytest
+from . import load_fixture
 
 SERVER = os.environ.get("TICTACTOE_SERVER", "http://localhost:8000")
 
 
-def load_fixture(path):
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-    with open(os.path.join(dir_path, "fixtures", path), "r") as fd:
-        return fd.read()
-
-
 def test_get_games():
-    assert requests.get(SERVER + "/api/games").status_code == 200
+    r = requests.get(SERVER + "/api/games")
+    assert r.status_code == 200
 
 
 @pytest.mark.parametrize(
@@ -28,3 +24,30 @@ def test_get_games():
 def test_create_game(json, status):
     response = requests.post(SERVER + "/api/games", data=json)
     assert response.status_code == status
+
+
+def test_create_and_get_then_modify_and_get_game():
+    initial = load_fixture("games/without_state.json")
+
+    create_data = requests.post(f"{SERVER}/api/games", data=initial).json()
+    uuid = create_data["id"]
+    get_data = requests.get(f"{SERVER}/api/games/{uuid}").json()
+    assert create_data == get_data
+
+
+def test_create_and_update_game():
+    initial = load_fixture("games/without_state.json")
+    updated = load_fixture("games/with_state.json")
+
+    initial_data = requests.post(f"{SERVER}/api/games", data=initial).json()
+    uuid = initial_data["id"]
+    updated_data = requests.post(f"{SERVER}/api/games/{uuid}", data=updated).json()
+    get_data = requests.get(f"{SERVER}/api/games/{uuid}").json()
+    assert updated_data == get_data
+    assert uuid == updated_data["id"] == get_data["id"]
+
+
+def test_openapi_works():
+    r = requests.get(f"{SERVER}/openapi.json")
+    assert r.status_code == 200
+    assert isinstance(r.json(), dict)

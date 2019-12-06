@@ -1,2 +1,6 @@
 fastapi
 uvicorn
+sqlalchemy
+sqlalchemy-utils
+email_validator # not required, but silences warnings in fastapi
+git+https://github.com/lutostag/pydantic.git@f82757a44688b5390ba257862e366132a172b9dc#egg=pydantic # due to an issue with openapi.json creation

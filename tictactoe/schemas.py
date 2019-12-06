@@ -1,3 +1,4 @@
+from uuid import UUID
 from typing import List, Tuple, Optional
 from pydantic import BaseModel, StrictStr, conint, validator
 
@@ -11,48 +12,30 @@ class GameIn(BaseModel):
 
     If no state is given, it will default to a blank board.
 
-    >>> GameIn(players=['1', '☺'])
-    GameIn(players=('1', '☺'), state=[[None, None, None],
-                                      [None, None, None],
-                                      [None, None, None]])
-    >>> GameIn(players=('3', '4'), state=[[1, None, None], \
-                                          [None, None, None], \
-                                          [None, None, 0]])
-    GameIn(players=('3', '4'), state=[[1, None, None],
-                                      [None, None, None],
-                                      [None, None, 0]])
-    >>> GameIn(players=("3", 5))
-    Traceback (most recent call last):
-      ...
-    pydantic.error_wrappers.ValidationError: ...
-      ...
-    >>> GameIn(players=("0", "1"), state=[[0, 0, 0], [1, 1, 1], [None]])
-    Traceback (most recent call last):
-      ...
-    pydantic.error_wrappers.ValidationError: ...
-      ...
     """
 
     players: Tuple[StrictStr, StrictStr]
     # doing below rather than [[None] * 3] * 3 to avoid the case of references
     # to same row three times
-    state: BoardType = [[None] * 3, [None] * 3, [None] * 3]
+    state: BoardType = [[None, None, None], [None, None, None], [None, None, None]]
 
     @validator("state")
-    def must_be_3x3(cls, v):
-        if len(v) != 3:
+    def must_be_3x3(cls, value):
+        if len(value) != 3:
             raise ValueError("must have 3 rows")
-        if any((len(row) != 3 for row in v)):
+        if any((len(row) != 3 for row in value)):
             raise ValueError("all rows must contain 3 items")
-        return v
+        return value
 
 
-class GameOut(BaseModel):
+class GameOut(GameIn):
     """Game Model - output to client
 
     All attributes are required
     """
 
-    id: str
-    players: Tuple[str, str]
     state: BoardType
+    id: UUID
+
+    class Config:
+        orm_mode = True
