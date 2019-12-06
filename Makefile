@@ -7,6 +7,7 @@ fmt:
 	black .
 
 test:
+	python -m doctest -o NORMALIZE_WHITESPACE -o ELLIPSIS **/*.py
 	pytest
 
 dev:

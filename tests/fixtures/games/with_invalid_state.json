@@ -1,0 +1,11 @@
+{
+  "players": [
+    "one",
+    "two"
+  ],
+  "state": [
+      [null, null, null],
+      [null, null, null],
+      [null, null, 3]
+  ]
+}

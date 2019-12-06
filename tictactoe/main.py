@@ -1,12 +1,8 @@
 from fastapi import FastAPI
-from typing import Tuple
-from pydantic import BaseModel
+from tictactoe.schemas import GameIn
+
 
 app = FastAPI()
-
-
-class Game(BaseModel):
-    players: Tuple[str, str]
 
 
 @app.get("/api/games")
@@ -15,5 +11,5 @@ def read_api_games():
 
 
 @app.post("/api/games")
-def post_api_games(game: Game):
+def post_api_games(game: GameIn):
     return game
