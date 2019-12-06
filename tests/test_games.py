@@ -21,6 +21,7 @@ def test_get_games():
         (load_fixture("games/without_state.json"), 200),
         (load_fixture("games/with_state.json"), 200),
         (load_fixture("games/with_invalid_state.json"), 422),
+        (load_fixture("games/with_invalid_state_size.json"), 422),
         (load_fixture("games/invalid_json.txt"), 400),
     ],
 )
