@@ -15,3 +15,6 @@ test: lint
 
 dev:
 	uvicorn tictactoe.backend.main:app --reload
+
+up:
+	docker-compose up --build
