@@ -1,6 +1,7 @@
 import requests
 import os
 import pytest
+import json
 from . import load_fixture
 
 SERVER = os.environ.get("TICTACTOE_SERVER", "http://localhost:8000")
@@ -16,6 +17,7 @@ def test_get_games():
     [
         (load_fixture("games/without_state.json"), 200),
         (load_fixture("games/with_state.json"), 200),
+        (load_fixture("games/with_utf8_players.json"), 200),
         (load_fixture("games/with_invalid_state.json"), 422),
         (load_fixture("games/with_invalid_state_size.json"), 422),
         (load_fixture("games/invalid_json.txt"), 400),
@@ -51,3 +53,16 @@ def test_openapi_works():
     r = requests.get(f"{SERVER}/openapi.json")
     assert r.status_code == 200
     assert isinstance(r.json(), dict)
+
+
+def test_full_game():
+    moves = json.loads(load_fixture("games/full_play.json"))
+    initial_data = requests.post(f"{SERVER}/api/games", json=moves[0]).json()
+    uuid = initial_data["id"]
+    for move in moves[1:]:
+        r = requests.post(f"{SERVER}/api/games/{uuid}", json=move)
+        assert r.status_code == 200
+        r = requests.get(f"{SERVER}/api/games/{uuid}")
+        assert r.status_code == 200
+        if "state" in move:
+            assert r.json()["state"] == move["state"]

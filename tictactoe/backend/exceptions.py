@@ -1,0 +1,2 @@
+class StateTransitionError(ValueError):
+    pass

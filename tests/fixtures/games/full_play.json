@@ -1,0 +1,123 @@
+[
+    {
+        "players": [
+            "a"
+        ]
+    },
+    {
+        "players": [
+            "a",
+            "b"
+        ]
+    },
+    {
+        "players": [
+            "a",
+            "b"
+        ],
+        "state": [
+            [null, null, null],
+            [null, null, null],
+            [null, null, null]
+        ]
+    },
+    {
+        "players": [
+            "a",
+            "b"
+        ],
+        "state": [
+            [0, null, null],
+            [null, null, null],
+            [null, null, null]
+        ]
+    },
+    {
+        "players": [
+            "a",
+            "b"
+        ],
+        "state": [
+            [0, 1, null],
+            [null, null, null],
+            [null, null, null]
+        ]
+    },
+    {
+        "players": [
+            "a",
+            "b"
+        ],
+        "state": [
+            [0, 1, 0],
+            [null, null, null],
+            [null, null, null]
+        ]
+    },
+    {
+        "players": [
+            "a",
+            "b"
+        ],
+        "state": [
+            [0, 1, 0],
+            [1, null, null],
+            [null, null, null]
+        ]
+    },
+    {
+        "players": [
+            "a",
+            "b"
+        ],
+        "state": [
+            [0, 1, 0],
+            [1, 0, null],
+            [null, null, null]
+        ]
+    },
+    {
+        "players": [
+            "a",
+            "b"
+        ],
+        "state": [
+            [0, 1, 0],
+            [1, 0, 1],
+            [null, null, null]
+        ]
+    },
+    {
+        "players": [
+            "a",
+            "b"
+        ],
+        "state": [
+            [0, 1, 0],
+            [1, 0, 1],
+            [null, 0, null]
+        ]
+    },
+    {
+        "players": [
+            "a",
+            "b"
+        ],
+        "state": [
+            [0, 1, 0],
+            [1, 0, 1],
+            [1, 0, null]
+        ]
+    },
+    {
+        "players": [
+            "a",
+            "b"
+        ],
+        "state": [
+            [0, 1, 0],
+            [1, 0, 1],
+            [1, 0, 0]
+        ]
+    }
+]

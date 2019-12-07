@@ -1,7 +1,7 @@
 from uuid import uuid4
 from sqlalchemy import Column, JSON
 from sqlalchemy_utils import UUIDType
-from tictactoe.database import Base
+from tictactoe.backend.database import Base
 
 
 class Game(Base):

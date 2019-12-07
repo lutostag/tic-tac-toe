@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from tictactoe import models, schemas
+from tictactoe.backend import models, schemas
 
 
 def get_game(db: Session, game_id: str):
@@ -15,10 +15,16 @@ def create_game(db: Session, game: schemas.GameIn):
 
 
 def update_game(db: Session, game_id: str, game: schemas.GameIn):
-    db_game = db.query(models.Game).filter(models.Game.id == game_id)
-    db_game.update(game.dict())
+    db_game = get_game(db, game_id)
+    if db_game is None:
+        return None
+    current = schemas.GameOut.from_orm(db_game)
+    game.validate_move(current)
+    db_game.players = game.players
+    db_game.state = game.state
     db.commit()
-    return db_game.first()
+    db.refresh(db_game)
+    return db_game
 
 
 def list_games(db: Session, offset: int = 0, limit: int = 100):

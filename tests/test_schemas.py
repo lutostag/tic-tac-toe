@@ -1,14 +1,14 @@
 import json
 import pytest
-from tictactoe.schemas import GameIn
+from tictactoe.backend.schemas import GameIn
 from . import load_fixture
 from pydantic.error_wrappers import ValidationError
 
 
 def test_no_state():
     game = GameIn(players=["one", "two"])
-    assert game.players == ("one", "two")
-    assert len(game.state) == 3
+    print(game.dict())
+    assert game.dict() == json.loads(load_fixture("games/with_state.json"))
 
 
 @pytest.mark.parametrize(

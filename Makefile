@@ -1,14 +1,17 @@
 .PHONY: deps fmt test dev
 
 deps:
-	pip install -r requirements-dev.txt
+	pip install -Ur requirements-dev.txt
 
 fmt:
 	black .
 
-test:
-	python -m doctest -o NORMALIZE_WHITESPACE -o ELLIPSIS **/*.py
+lint:
+	black --check .
+	#pylint tictactoe
+
+test: lint
 	pytest
 
 dev:
-	uvicorn tictactoe.main:app --reload
+	uvicorn tictactoe.backend.main:app --reload
