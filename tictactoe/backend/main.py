@@ -1,5 +1,6 @@
 from typing import List
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.openapi.utils import get_openapi
 from sqlalchemy.orm import Session
 from tictactoe.backend import schemas, crud, models, exceptions
 from tictactoe.backend.database import SessionLocal, engine, get_db
@@ -42,3 +43,22 @@ def update_game(game_id: str, game: schemas.GameIn, db: Session = Depends(get_db
     if game is None:
         raise HTTPException(status_code=404, detail="Game not found")
     return game
+
+
+def openapi():
+    if app.openapi_schema:
+        return app.openapi_schema
+    openapi_schema = get_openapi(
+        title="Tic Tac Toe",
+        version="2.5.0",
+        description="OpenAPI schema for playing Tic-Tac-Toe",
+        routes=app.routes,
+    )
+    openapi_schema["info"]["x-logo"] = {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Tic_tac_toe.svg/200px-Tic_tac_toe.svg.png"
+    }
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+
+app.openapi = openapi

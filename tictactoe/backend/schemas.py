@@ -3,7 +3,7 @@ from collections import Counter
 from uuid import UUID
 from typing import List, Tuple, Optional
 from pydantic import BaseModel, Field, StrictStr, conint, validator
-from tictactoe.backend.exceptions import StateTransitionError
+from tictactoe.backend.exceptions import StateTransitionError, InvalidBoardStateError
 
 # type aliases that we can use below for explicit type annotation of models
 Null01 = Optional[conint(strict=True, ge=0, le=1)]
@@ -35,6 +35,7 @@ class GameIn(BaseModel):
         max_items=2,
         title="The players in this game",
         description=PLAYERS_DESC,
+        example=["lutostag (X)", "you (O)"],
     )
     state: BoardType = Field(
         blank_state(),
@@ -42,6 +43,7 @@ class GameIn(BaseModel):
         min_items=3,
         title="The state of the board",
         description=BOARD_STATE_DESC,
+        example=blank_state(),
     )
 
     def must_be_3x3(cls, value):
@@ -57,9 +59,8 @@ class GameIn(BaseModel):
         flat = list(itertools.chain.from_iterable(value))
         counter = Counter(flat)
         if not 0 <= counter[0] - counter[1] <= 1:
-            raise ValueError(
-                "player turn order is incorrect, \
-                    please start with player 1, and alternate turns"
+            raise InvalidBoardStateError(
+                "player turn order is incorrect, please start with player 1, and alternate turns"
             )
         return value
 
@@ -104,6 +105,7 @@ class GameOut(GameIn):
         min_items=3,
         title="The state of the board",
         description=BOARD_STATE_DESC,
+        example=blank_state(),
     )
     id: UUID = Field(..., title="Unique ID of this game")
 
