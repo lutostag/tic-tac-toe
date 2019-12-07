@@ -50,7 +50,7 @@ def openapi():
         return app.openapi_schema
     openapi_schema = get_openapi(
         title="Tic Tac Toe",
-        version="2.5.0",
+        version="1.0.1",
         description="OpenAPI schema for playing Tic-Tac-Toe",
         routes=app.routes,
     )

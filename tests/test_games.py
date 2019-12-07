@@ -66,3 +66,14 @@ def test_full_game():
         assert r.status_code == 200
         if "state" in move:
             assert r.json()["state"] == move["state"]
+
+
+def test_invalid_transitions():
+    moves = json.loads(load_fixture("games/invalid_transitions.json"))
+    initial_data = requests.post(f"{SERVER}/api/games", json=moves[0]).json()
+    uuid = initial_data["id"]
+    for move in moves[1:]:
+        r = requests.post(f"{SERVER}/api/games/{uuid}", json=move)
+        assert r.status_code == 422
+        r = requests.get(f"{SERVER}/api/games/{uuid}")
+        assert r.json() == initial_data

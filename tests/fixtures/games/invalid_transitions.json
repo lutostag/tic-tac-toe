@@ -1,0 +1,46 @@
+[
+{
+  "players": [
+    "one",
+    "two"
+  ],
+  "state": [
+      [null, null, null],
+      [null, 0, null],
+      [null, null, null]
+  ]
+},
+{
+  "players": [
+    "one",
+    "two"
+  ],
+  "state": [
+      [0, null, null],
+      [null, 0, null],
+      [null, null, null]
+  ]
+},
+{
+  "players": [
+    "one",
+    "two"
+  ],
+  "state": [
+      [null, null, null],
+      [null, 1, null],
+      [null, null, null]
+  ]
+},
+{
+  "players": [
+    "two",
+    "one"
+  ],
+  "state": [
+      [null, null, null],
+      [null, 0, null],
+      [null, null, null]
+  ]
+}
+]
